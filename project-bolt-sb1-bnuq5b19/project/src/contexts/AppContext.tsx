@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Project, Notification, ProjectPhase } from '../types';
 
 interface AppContextType {
@@ -47,7 +47,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       type: 'AMI',
       structure: 'Direction Technique',
       launchDate: '2024-02-01',
-      status: 'active',
+      status: 'pending',
       phase: 'programming',
       progress: 30,
       responsible: 'Pierre Martin',
@@ -60,7 +60,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       type: 'DP',
       structure: 'Service Informatique',
       launchDate: '2024-01-20',
-      status: 'active',
+      status: 'completed',
       phase: 'implementation',
       progress: 100,
       responsible: 'Sophie Laurent',
@@ -94,6 +94,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [currentPhase, setCurrentPhase] = useState<ProjectPhase>('programming');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
+  // Synchroniser la phase actuelle avec le projet sélectionné
+  useEffect(() => {
+    if (selectedProject) {
+      console.log('🔄 Synchronizing phase with selected project:', selectedProject.phase);
+      setCurrentPhase(selectedProject.phase);
+    }
+  }, [selectedProject]);
+
   const addProject = (projectData: Omit<Project, 'id'>): string => {
     const projectId = Math.random().toString(36).substr(2, 9);
     const newProject: Project = {
@@ -101,7 +109,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       id: projectId,
       phase: 'programming',
       progress: 0,
-      status: 'active'
+      status: 'pending'
     };
     
     console.log('➕ Adding new project:', newProject);
@@ -125,7 +133,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const updated = prev.map(project => {
         if (project.id === projectId) {
           const updatedProject = { ...project, ...updates };
-          console.log('📝 Project updated:', updatedProject);
+          console.log('📝 Project updated in list:', updatedProject);
+          
+          // Si c'est le projet sélectionné, le mettre à jour aussi
+          if (selectedProject?.id === projectId) {
+            console.log('🎯 Updating selected project too');
+            setSelectedProject(updatedProject);
+            
+            // Mettre à jour la phase actuelle si elle a changé
+            if (updates.phase && updates.phase !== currentPhase) {
+              console.log('🔄 Changing current phase from', currentPhase, 'to', updates.phase);
+              setCurrentPhase(updates.phase);
+            }
+          }
+          
           return updatedProject;
         }
         return project;
@@ -133,19 +154,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       console.log('📋 All projects after update:', updated);
       return updated;
     });
-    
-    // Mettre à jour le projet sélectionné si c'est le même
-    if (selectedProject?.id === projectId) {
-      const updatedSelectedProject = { ...selectedProject, ...updates };
-      console.log('🎯 Updating selected project:', updatedSelectedProject);
-      setSelectedProject(updatedSelectedProject);
-      
-      // Mettre à jour la phase actuelle si elle a changé
-      if (updates.phase && updates.phase !== currentPhase) {
-        console.log('🔄 Changing current phase from', currentPhase, 'to', updates.phase);
-        setCurrentPhase(updates.phase);
-      }
-    }
   };
 
   const selectProject = (project: Project) => {
@@ -215,7 +223,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     const updates = {
       phase: nextPhase,
-      progress: Math.round(newProgress)
+      progress: Math.round(newProgress),
+      status: nextPhase === 'implementation' ? 'completed' as const : 'active' as const
     };
 
     console.log('📝 Applying updates to project:', updates);

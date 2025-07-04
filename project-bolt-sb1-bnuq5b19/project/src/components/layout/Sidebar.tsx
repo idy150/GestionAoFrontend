@@ -54,6 +54,11 @@ const phases = [
 export const Sidebar: React.FC = () => {
   const { currentPhase, setCurrentPhase, sidebarCollapsed, toggleSidebar, selectedProject } = useApp();
 
+  const handlePhaseClick = (phaseId: ProjectPhase) => {
+    console.log('🎯 Sidebar phase clicked:', phaseId);
+    setCurrentPhase(phaseId);
+  };
+
   return (
     <div className={`bg-white border-r border-gray-200 transition-all duration-300 ${
       sidebarCollapsed ? 'w-16' : 'w-80'
@@ -87,7 +92,7 @@ export const Sidebar: React.FC = () => {
             return (
               <button
                 key={phase.id}
-                onClick={() => setCurrentPhase(phase.id)}
+                onClick={() => handlePhaseClick(phase.id)}
                 className={`nav-item w-full ${isActive ? 'active' : ''}`}
                 title={sidebarCollapsed ? phase.name : ''}
               >

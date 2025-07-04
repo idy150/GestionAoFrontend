@@ -49,20 +49,20 @@ export const ProgrammingPhase: React.FC<ProgrammingPhaseProps> = ({ project }) =
 
   const totalWeight = criteria.reduce((sum, c) => sum + c.weight, 0);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    if (!isFormValid) return;
     
-    if (!isFormValid) {
-      console.log('❌ Form is not valid, cannot submit');
-      return;
-    }
+    console.log('🚀 Form submitted for project:', project.id);
+    console.log('📝 Form data:', formData);
+    console.log('📊 Criteria:', criteria);
+    console.log('⚖️ Total weight:', totalWeight);
     
-    console.log('🚀 Starting phase submission for project:', project.id);
     setIsSubmitting(true);
 
     try {
-      // Sauvegarder les données de programmation
       console.log('💾 Saving programming data...');
+      
+      // Sauvegarder les données de programmation
       const projectUpdates = {
         budget: formData.budget,
         extractedData: {
@@ -77,14 +77,15 @@ export const ProgrammingPhase: React.FC<ProgrammingPhaseProps> = ({ project }) =
       updateProject(project.id, projectUpdates);
 
       // Simuler le traitement
-      console.log('⏳ Processing for 1.5 seconds...');
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      console.log('⏳ Processing for 2 seconds...');
+      await new Promise(resolve => setTimeout(resolve, 2000));
 
       // Passer à la phase suivante
       console.log('➡️ Advancing to next phase...');
       advanceToNextPhase(project.id);
       
       console.log('✅ Phase submission completed successfully!');
+      
     } catch (error) {
       console.error('❌ Error during phase submission:', error);
     } finally {
@@ -96,8 +97,11 @@ export const ProgrammingPhase: React.FC<ProgrammingPhaseProps> = ({ project }) =
 
   console.log('🔍 Form validation:', {
     bailleur: formData.bailleur.trim() !== '',
+    bailleruValue: formData.bailleur,
     budget: formData.budget > 0,
+    budgetValue: formData.budget,
     totalWeight: totalWeight === 100,
+    totalWeightValue: totalWeight,
     isValid: isFormValid
   });
 
@@ -115,7 +119,7 @@ export const ProgrammingPhase: React.FC<ProgrammingPhaseProps> = ({ project }) =
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Informations principales */}
         <div className="card">
           <h3 className="section-subtitle mb-4 flex items-center gap-2">
@@ -330,7 +334,7 @@ export const ProgrammingPhase: React.FC<ProgrammingPhaseProps> = ({ project }) =
               </p>
             </div>
             <button
-              type="submit"
+              onClick={handleSubmit}
               disabled={!isFormValid || isSubmitting}
               className="btn-primary flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
@@ -351,12 +355,17 @@ export const ProgrammingPhase: React.FC<ProgrammingPhaseProps> = ({ project }) =
           {!isFormValid && (
             <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
               <div className="text-sm text-red-800">
-                Veuillez compléter tous les champs obligatoires et ajuster les critères pour continuer
+                <strong>Champs manquants :</strong>
+                <ul className="mt-2 list-disc list-inside">
+                  {!formData.bailleur.trim() && <li>Nom du bailleur</li>}
+                  {formData.budget <= 0 && <li>Budget valide</li>}
+                  {totalWeight !== 100 && <li>Total des critères = 100%</li>}
+                </ul>
               </div>
             </div>
           )}
         </div>
-      </form>
+      </div>
     </div>
   );
 };
