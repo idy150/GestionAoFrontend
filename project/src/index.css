@@ -1,0 +1,468 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Variables CSS pour une meilleure maintenabilité */
+:root {
+  --primary: #003366;      /* Bleu marine */
+  --secondary: #CDB06B;    /* Or */
+  --accent: #0066CC;       /* Bleu accent */
+  --text: #333333;         /* Texte principal */
+  --text-light: #666666;   /* Texte secondaire */
+  --light-bg: #f8fafc;     /* Arrière-plan clair */
+  --white: #ffffff;        /* Blanc pur */
+  --border: #e2e8f0;       /* Bordures */
+  --success: #10b981;      /* Vert succès */
+  --warning: #f59e0b;      /* Orange warning */
+  --error: #ef4444;        /* Rouge erreur */
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    background-color: var(--light-bg);
+    line-height: 1.6;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+}
+
+@layer components {
+  /* Boutons avec design professionnel */
+  .btn-primary {
+    @apply font-medium py-3 px-6 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-opacity-50 transform hover:scale-105 active:scale-95;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: var(--white);
+    box-shadow: var(--shadow);
+  }
+  
+  .btn-primary:hover {
+    box-shadow: var(--shadow-lg);
+    filter: brightness(1.1);
+  }
+  
+  .btn-primary:focus {
+    ring-color: var(--primary);
+  }
+  
+  .btn-secondary {
+    @apply font-medium py-3 px-6 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-opacity-50 transform hover:scale-105 active:scale-95;
+    background: var(--white);
+    color: var(--text);
+    border: 2px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  
+  .btn-secondary:hover {
+    background: var(--light-bg);
+    border-color: var(--secondary);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+  
+  .btn-danger {
+    @apply font-medium py-3 px-6 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-opacity-50 transform hover:scale-105 active:scale-95;
+    background: linear-gradient(135deg, var(--error), #dc2626);
+    color: var(--white);
+    box-shadow: var(--shadow);
+  }
+  
+  .btn-danger:hover {
+    box-shadow: var(--shadow-lg);
+    filter: brightness(1.1);
+  }
+  
+  /* Cards avec design moderne */
+  .card {
+    @apply rounded-2xl border transition-all duration-300;
+    background: var(--white);
+    border-color: var(--border);
+    box-shadow: var(--shadow);
+    padding: 2rem;
+  }
+  
+  .card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+  
+  .card-interactive {
+    @apply cursor-pointer;
+  }
+  
+  .card-interactive:hover {
+    border-color: var(--secondary);
+    transform: translateY(-4px);
+  }
+  
+  /* Champs de saisie élégants */
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-opacity-50;
+    border-color: var(--border);
+    background: var(--white);
+    color: var(--text);
+  }
+  
+  .input-field:focus {
+    border-color: var(--primary);
+    ring-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(0, 51, 102, 0.1);
+  }
+  
+  .input-field:hover {
+    border-color: var(--secondary);
+  }
+  
+  /* Status badges avec couleurs cohérentes */
+  .status-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium transition-all duration-300;
+  }
+  
+  .status-active {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+  
+  .status-pending {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+  }
+  
+  .status-completed {
+    background: rgba(0, 102, 204, 0.1);
+    color: var(--accent);
+    border: 1px solid rgba(0, 102, 204, 0.2);
+  }
+  
+  .status-delayed {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--error);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+  }
+  
+  /* Navigation avec design professionnel */
+  .nav-item {
+    @apply flex items-center gap-3 p-4 rounded-xl transition-all duration-300 cursor-pointer;
+    color: var(--text-light);
+  }
+  
+  .nav-item:hover {
+    background: rgba(205, 176, 107, 0.1);
+    color: var(--text);
+    transform: translateX(4px);
+  }
+  
+  .nav-item.active {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: var(--white);
+    box-shadow: var(--shadow);
+  }
+  
+  .nav-item.active:hover {
+    transform: translateX(0);
+  }
+  
+  /* Progress bars élégantes */
+  .progress-bar {
+    @apply w-full bg-gray-200 rounded-full h-3 overflow-hidden;
+  }
+  
+  .progress-fill {
+    @apply h-full rounded-full transition-all duration-500;
+    background: linear-gradient(90deg, var(--secondary), var(--primary));
+  }
+  
+  /* Animations et micro-interactions */
+  .fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+  
+  .slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+  
+  .pulse-gentle {
+    animation: pulseGentle 2s infinite;
+  }
+  
+  /* Responsive design optimisé */
+  @media (max-width: 768px) {
+    .card {
+      padding: 1.5rem;
+    }
+    
+    .btn-primary, .btn-secondary, .btn-danger {
+      @apply py-2 px-4 text-sm;
+    }
+    
+    .nav-item {
+      @apply p-3;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .card {
+      padding: 1rem;
+    }
+    
+    .input-field {
+      @apply py-2 px-3;
+    }
+  }
+}
+
+/* Animations personnalisées */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGentle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Scrollbar personnalisée */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--light-bg);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Effets de focus pour l'accessibilité */
+.focus-visible:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Styles pour les tooltips */
+.tooltip {
+  @apply absolute z-50 px-3 py-2 text-sm rounded-lg shadow-lg;
+  background: var(--text);
+  color: var(--white);
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: var(--transition);
+  pointer-events: none;
+}
+
+.tooltip.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Styles pour les modales */
+.modal-overlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center p-4;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  @apply bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Styles pour les notifications */
+.notification {
+  @apply fixed top-4 right-4 z-50 p-4 rounded-xl shadow-lg;
+  min-width: 300px;
+  animation: notificationSlideIn 0.3s ease-out;
+}
+
+.notification.success {
+  background: var(--success);
+  color: var(--white);
+}
+
+.notification.error {
+  background: var(--error);
+  color: var(--white);
+}
+
+.notification.warning {
+  background: var(--warning);
+  color: var(--white);
+}
+
+@keyframes notificationSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Styles pour les tableaux */
+.table-container {
+  @apply overflow-x-auto rounded-xl border;
+  border-color: var(--border);
+}
+
+.table {
+  @apply w-full;
+}
+
+.table th {
+  @apply px-6 py-4 text-left font-semibold;
+  background: var(--light-bg);
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+
+.table td {
+  @apply px-6 py-4;
+  border-bottom: 1px solid var(--border);
+}
+
+.table tr:hover {
+  background: rgba(205, 176, 107, 0.05);
+}
+
+/* Styles pour les onglets */
+.tab-list {
+  @apply flex border-b;
+  border-color: var(--border);
+}
+
+.tab {
+  @apply px-6 py-3 font-medium transition-all duration-300 cursor-pointer;
+  color: var(--text-light);
+  border-bottom: 2px solid transparent;
+}
+
+.tab:hover {
+  color: var(--text);
+  background: rgba(205, 176, 107, 0.1);
+}
+
+.tab.active {
+  color: var(--primary);
+  border-bottom-color: var(--secondary);
+}
+
+/* Styles pour les formulaires */
+.form-group {
+  @apply space-y-2;
+}
+
+.form-label {
+  @apply block text-sm font-medium;
+  color: var(--text);
+}
+
+.form-error {
+  @apply text-sm;
+  color: var(--error);
+}
+
+.form-help {
+  @apply text-sm;
+  color: var(--text-light);
+}
+
+/* Styles pour les listes */
+.list-item {
+  @apply flex items-center justify-between p-4 rounded-xl border transition-all duration-300;
+  border-color: var(--border);
+  background: var(--white);
+}
+
+.list-item:hover {
+  border-color: var(--secondary);
+  box-shadow: var(--shadow);
+  transform: translateY(-1px);
+}
+
+/* Styles pour les badges de notification */
+.notification-badge {
+  @apply absolute -top-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold;
+  background: var(--error);
+  color: var(--white);
+}
+
+/* Styles pour les dividers */
+.divider {
+  @apply border-t;
+  border-color: var(--border);
+}
+
+/* Styles pour les sections */
+.section {
+  @apply space-y-6;
+}
+
+.section-header {
+  @apply flex items-center justify-between;
+}
+
+.section-title {
+  @apply text-2xl font-bold;
+  color: var(--text);
+}
+
+.section-subtitle {
+  @apply text-lg font-semibold;
+  color: var(--text);
+}
+
+.section-description {
+  color: var(--text-light);
+}
