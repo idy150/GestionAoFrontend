@@ -15,6 +15,7 @@ export const LoginForm: React.FC = () => {
     
     try {
       await login(email, password);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError('Identifiants incorrects. Veuillez réessayer.');
     }
